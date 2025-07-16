@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1><%= title %></h1>
+        <a href="/new" class="btn">Post a New Message</a>
+      </header>
+
+      <main>
+        <ul class="message-board">
+          <% messages.forEach((message, index) => { %>
+          <li class="message-row">
+            <div class="message-content">
+              <p class="message-text"><%= message.text %></p>
+              <p class="message-meta">
+                <span>by <strong><%= message.user %></strong></span>
+                <span>&middot;</span>
+                <time datetime="<%= message.added.toISOString() %>">
+                  <%= message.added.toLocaleDateString("en-US", { month:
+                  'short', day: 'numeric', year: 'numeric' }) %>
+                </time>
+              </p>
+            </div>
+            <div class="message-actions">
+              <a href="/message/<%= index %>" class="btn">View Message</a>
+            </div>
+          </li>
+          <% }); %>
+        </ul>
+      </main>
+    </div>
+  </body>
+</html>

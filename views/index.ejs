@@ -18,9 +18,9 @@
           <% messages.forEach((message, index) => { %>
           <li class="message-row">
             <div class="message-content">
-              <p class="message-text"><%= message.text %></p>
+              <p class="message-text"><%= message.message_text %></p>
               <p class="message-meta">
-                <span>by <strong><%= message.user %></strong></span>
+                <span>by <strong><%= message.username %></strong></span>
                 <span>&middot;</span>
                 <time datetime="<%= message.added.toISOString() %>">
                   <%= message.added.toLocaleDateString("en-US", { month:
@@ -29,7 +29,7 @@
               </p>
             </div>
             <div class="message-actions">
-              <a href="/message/<%= index %>" class="btn">View Message</a>
+              <a href="/message/<%= index + 1%>" class="btn">View Message</a>
             </div>
           </li>
           <% }); %>

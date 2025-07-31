@@ -1,22 +1,11 @@
 // index.js
 const { Router } = require("express");
+const db = require("../db/queries");
 
 const indexRouter = Router();
 
-const messages = [
-  {
-    text: "I really like the clean and minimal design of this message board! What's the tech stack? I'm guessing Node.js and EJS?",
-    user: "DesignFan",
-    added: new Date("2025-07-15T10:00:00Z"),
-  },
-  {
-    text: "This is a great little project. It's a perfect example of how to build a simple full-stack app. The code is super readable.",
-    user: "HappyDeveloper",
-    added: new Date("2025-07-15T14:30:00Z"),
-  },
-];
-
-indexRouter.get("/", (req, res) => {
+indexRouter.get("/", async (req, res) => {
+    const messages = await db.getAllMessages();
     res.render("index", { title: "Mini Message Board", messages: messages })
 })
 
@@ -24,15 +13,23 @@ indexRouter.get("/new", (req, res) => {
     res.render("form")
 })
 
-indexRouter.post("/new", (req, res) => {
+indexRouter.post("/new", async (req, res) => {
     const messageUser = req.body.username;
     const messageText = req.body.messageText;
-    messages.push({ text: messageText, user: messageUser, added: new Date() });
+    await db.insertMessage(messageText, messageUser);
     res.redirect("/")
 })
 
-indexRouter.get("/message/:userId", (req, res) => {
-    res.render("message", {message: messages[req.params.userId]})
+indexRouter.get("/message/:id", async (req, res, next) => {
+  try {
+    const message = await db.getMessageById(req.params.id);
+    if(!message) {
+      return res.status(404).send("Message not found");
+    }
+    res.render("message", {message: message})
+  } catch (error) {
+    next(error)
+  }   
 })
 
 module.exports = indexRouter;

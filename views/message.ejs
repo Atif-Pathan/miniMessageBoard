@@ -15,10 +15,10 @@
       <main class="form-container">
         <article>
           <p class="message-text" style="font-size: 1.2rem; margin-bottom: 1rem">
-            <%= message.text %>
+            <%= message.message_text %>
           </p>
           <p class="message-meta">
-            <span>Posted by <strong><%= message.user %></strong></span>
+            <span>Posted by <strong><%= message.username %></strong></span>
             <span>&middot;</span>
             <time datetime="<%= message.added.toISOString() %>">
               <%= message.added.toLocaleDateString("en-US", { month: 'long',
